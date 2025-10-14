@@ -26,6 +26,15 @@ def first_nonempty(*vals):
             return v.strip()
     return ""
 
+def getFullEngCityName(abbr: str) -> str:
+    """Convert abbreviated English city name to full name."""
+    mapping = {
+        "HK": "Hong Kong",
+        "KLN": "Kowloon",
+        "NT": "New Territories"
+    }
+    return mapping.get(abbr.upper(), abbr)
+
 def main(in_dir: Path, out_file: Path):
     # 结构：
     # cities[(CityName, CityEngName)]
@@ -52,6 +61,10 @@ def main(in_dir: Path, out_file: Path):
 
             city_cn = safe_get(chi, "Region")
             city_en = safe_get(eng, "Region")
+
+            # Convert abbreviated city names to full names
+            city_en = getFullEngCityName(city_en)
+
             area_cn = safe_get(chi, "ChiDistrict")
             area_en = safe_get(eng, "EngDistrict")
 
